@@ -3,6 +3,7 @@ buildscript {
     ext.cubaVersion = '6.10.8'
     repositories {
         
+        mavenLocal()
         maven {
             url 'https://repo.cuba-platform.com/content/groups/work'
             credentials {
@@ -17,7 +18,7 @@ buildscript {
     }
 }
 
-def modulePrefix = 'app'
+def modulePrefix = 'dsstp'
 
 def globalModule = project(":${modulePrefix}-global")
 def coreModule = project(":${modulePrefix}-core")
@@ -33,7 +34,7 @@ cuba {
     artifact {
         group = 'com.groupstp.datasupplier'
         version = '1.0.0'
-        isSnapshot = true
+        isSnapshot = false
     }
     tomcat {
         dir = "$project.rootDir/deploy/tomcat"
@@ -68,9 +69,20 @@ configure([globalModule, coreModule, webModule]) {
 }
 
 configure(globalModule) {
+    dependencies {
+        compile(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6')
+    }
+
     entitiesEnhancing {
         main {
             enabled = true
+        }
+    }
+
+    jar {
+        manifest {
+            attributes('App-Component-Id': cuba.artifact.group)
+            attributes('App-Component-Version': cuba.artifact.version + (cuba.artifact.isSnapshot ? '-SNAPSHOT' : ''))
         }
     }
 

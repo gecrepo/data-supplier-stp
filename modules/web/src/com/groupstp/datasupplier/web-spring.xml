@@ -7,5 +7,14 @@
 
     <!-- Annotation-based beans -->
     <context:component-scan base-package="com.groupstp.datasupplier"/>
-
+    <bean class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
+        <property name="serverSelector"
+                  ref="cuba_ServerSelector"/>
+        <property name="remoteServices">
+            <map>
+                <entry key="dsstp_DataSupplierService"
+                       value="com.groupstp.datasupplier.service.DataSupplierService"/>
+            </map>
+        </property>
+    </bean>
 </beans>
