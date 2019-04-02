@@ -21,6 +21,8 @@ public class AutocompleteTextFieldLoader extends TextFieldLoader {
 
     @Override
     public void loadComponent() {
+        super.loadComponent();
+
         loadMinSearchStringLength((AutocompleteTextField) resultComponent, element);
         loadSuggestionsLimit((AutocompleteTextField) resultComponent, element);
         loadAsyncSearchDelayMs((AutocompleteTextField) resultComponent, element);
