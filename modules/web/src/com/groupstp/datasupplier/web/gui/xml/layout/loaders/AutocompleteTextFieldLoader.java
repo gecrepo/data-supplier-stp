@@ -1,7 +1,7 @@
 package com.groupstp.datasupplier.web.gui.xml.layout.loaders;
 
 import com.groupstp.datasupplier.web.gui.components.AutocompleteTextField;
-import com.haulmont.cuba.gui.xml.layout.loaders.AbstractComponentLoader;
+import com.haulmont.cuba.gui.xml.layout.loaders.TextFieldLoader;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Element;
 
@@ -10,7 +10,7 @@ import org.dom4j.Element;
  *
  * @author adiatullin
  */
-public class AutocompleteTextFieldLoader extends AbstractComponentLoader<AutocompleteTextField> {
+public class AutocompleteTextFieldLoader extends TextFieldLoader {
 
     @Override
     public void createComponent() {
@@ -21,9 +21,9 @@ public class AutocompleteTextFieldLoader extends AbstractComponentLoader<Autocom
 
     @Override
     public void loadComponent() {
-        loadMinSearchStringLength(resultComponent, element);
-        loadSuggestionsLimit(resultComponent, element);
-        loadAsyncSearchDelayMs(resultComponent, element);
+        loadMinSearchStringLength((AutocompleteTextField) resultComponent, element);
+        loadSuggestionsLimit((AutocompleteTextField) resultComponent, element);
+        loadAsyncSearchDelayMs((AutocompleteTextField) resultComponent, element);
     }
 
     protected void loadMinSearchStringLength(AutocompleteTextField component, Element element) {
