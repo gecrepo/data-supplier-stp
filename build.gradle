@@ -145,7 +145,7 @@ configure(webModule) {
     dependencies {
         provided(servletApi)
         compile(globalModule)
-
+        compile('eu.maxschuster:vaadin-autocompletetextfield:1.0-alpha-4')
     }
     
     task webArchive(type: Zip) {
@@ -185,6 +185,7 @@ configure(webModule) {
         appJars(modulePrefix + '-global', modulePrefix + '-web')
     }
 }
+
 
 
 
