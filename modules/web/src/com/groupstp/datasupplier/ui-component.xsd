@@ -2,10 +2,16 @@
 <xs:schema xmlns="http://schemas.groupstp.com/dsstp/0.1/ui-component.xsd"
            attributeFormDefault="unqualified"
            elementFormDefault="qualified"
+           xmlns:cuba="http://schemas.haulmont.com/cuba/window.xsd"
            targetNamespace="http://schemas.groupstp.com/dsstp/0.1/ui-component.xsd"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://schemas.haulmont.com/cuba/window.xsd"
+               schemaLocation="http://schemas.haulmont.com/cuba/window.xsd"/>
+
     <xs:element name="autocompleteTextField">
         <xs:complexType>
+            <xs:extension base="cuba:textFieldComponent"/>
             <xs:attribute name="id"
                           type="xs:string"/>
             <xs:attribute name="minSearchStringLength"
