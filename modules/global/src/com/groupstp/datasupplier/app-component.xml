@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<app-component xmlns="http://schemas.haulmont.com/cuba/app-component.xsd"
+               dependsOn="com.haulmont.cuba">
+    <module blocks="*"
+            name="global">
+        <artifact appJar="true"
+                  name="dsstp-global"/>
+        <property name="cuba.persistenceConfig"
+                  value="+com/groupstp/datasupplier/persistence.xml"/>
+        <property name="cuba.metadataConfig"
+                  value="+com/groupstp/datasupplier/metadata.xml"/>
+        <property name="cuba.viewsConfig"
+                  value="+com/groupstp/datasupplier/views.xml"/>
+    </module>
+    <module blocks="core"
+            dependsOn="global"
+            name="core">
+        <artifact appJar="true"
+                  name="dsstp-core"/>
+        <property name="cuba.springContextConfig"
+                  value="+com/groupstp/datasupplier/spring.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+com.groupstp.datasupplier.core"/>
+    </module>
+    <module blocks="web"
+            dependsOn="global"
+            name="web">
+        <artifact appJar="true"
+                  name="dsstp-web"/>
+        <artifact classifier="web"
+                  configuration="webcontent"
+                  ext="zip"
+                  name="dsstp-web"/>
+        <property name="cuba.springContextConfig"
+                  value="+com/groupstp/datasupplier/web-spring.xml"/>
+        <property name="cuba.dispatcherSpringContextConfig"
+                  value="+com/groupstp/datasupplier/web-dispatcher-spring.xml"/>
+        <property name="cuba.windowConfig"
+                  value="+com/groupstp/datasupplier/web-screens.xml"/>
+        <property name="cuba.menuConfig"
+                  value="+com/groupstp/datasupplier/web-menu.xml"/>
+        <property name="cuba.permissionConfig"
+                  value="+com/groupstp/datasupplier/web-permissions.xml"/>
+        <property name="cuba.web.componentsConfig"
+                  value="+/com/groupstp/datasupplier/groupstp-ui-component.xml"/>
+        <property name="cuba.mainMessagePack"
+                  value="+com.groupstp.datasupplier.web"/>
+    </module>
+</app-component>

@@ -2,6 +2,7 @@ package com.groupstp.datasupplier.web.util;
 
 import com.groupstp.datasupplier.service.DataSupplierService;
 import com.groupstp.datasupplier.web.config.DataSupplierWebConfig;
+import com.groupstp.datasupplier.web.gui.components.AutocompleteTextField;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.Configuration;
 import com.haulmont.cuba.gui.components.SuggestionField;
@@ -21,7 +22,7 @@ public final class AddressUiHelper {
      * @param address raw address data
      * @return formatted address
      */
-    public static String formatAddress(String address) {
+    public static String getFormattedAddress(String address) {
         return ((DataSupplierService) AppBeans.get(DataSupplierService.NAME)).getFormattedAddress(address);
     }
 
@@ -51,5 +52,33 @@ public final class AddressUiHelper {
         field.setMinSearchStringLength(minSearchLength);
         field.setSuggestionsLimit(count);
         field.setSearchExecutor((search, params) -> service.getSuggestionAddresses(search, field.getSuggestionsLimit()));
+    }
+
+    /**
+     * Setup address suggestion field
+     *
+     * @param field UI autocomplete field
+     */
+    public static void showAddressSuggestions(AutocompleteTextField field) {
+        DataSupplierWebConfig config = ((Configuration) AppBeans.get(Configuration.NAME)).getConfig(DataSupplierWebConfig.class);
+
+        showAddressSuggestions(field, config.getDelayMs(), config.getMinSearchLength(), config.getFetchLimit());
+    }
+
+    /**
+     * Setup address suggestion field
+     *
+     * @param field           UI autocomplete field
+     * @param delayMs         delay in ms between user entering data and searching suggestions
+     * @param minSearchLength minimum search length when suggestions should appear
+     * @param count           maximum count of suggestions
+     */
+    public static void showAddressSuggestions(AutocompleteTextField field, int delayMs, int minSearchLength, int count) {
+        DataSupplierService service = AppBeans.get(DataSupplierService.NAME);
+
+        field.setAsyncSearchDelayMs(delayMs);
+        field.setMinSearchStringLength(minSearchLength);
+        field.setSuggestionsLimit(count);
+        field.setSuggestionProvider(service::getSuggestionAddresses);
     }
 }
