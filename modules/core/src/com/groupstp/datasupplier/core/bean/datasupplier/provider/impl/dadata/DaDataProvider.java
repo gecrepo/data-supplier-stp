@@ -48,7 +48,7 @@ public class DaDataProvider implements DataProviderDelegate {
 
     @Override
     public int getOrder() {
-        return HIGHEST_PRECEDENCE;
+        return 10;
     }
 
     @Override

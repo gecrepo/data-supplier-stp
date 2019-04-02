@@ -53,7 +53,7 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
                             return result;
                         }
                     } catch (Exception e) {
-                        log.error(String.format("Failed to clean address from data delegate '%s'", delegate.getClass()), e);
+                        log.error(String.format("Failed to clean address from data delegate '%s'. Reason: %s", delegate.getClass(), e.getMessage()));
                     }
                 }
                 log.warn(String.format("Current data delegates are not support to clean up address '%s'", rawAddress));
@@ -96,7 +96,7 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
                             return result;
                         }
                     } catch (Exception e) {
-                        log.error(String.format("Failed to receive suggestion address from data delegate '%s'", delegate.getClass()), e);
+                        log.error(String.format("Failed to receive suggestion address from data delegate '%s'. Reason: %s", delegate.getClass(), e.getMessage()));
                     }
                 }
                 log.warn(String.format("Current data delegates are not support to get suggestion addresses from value '%s'", rawAddress));
