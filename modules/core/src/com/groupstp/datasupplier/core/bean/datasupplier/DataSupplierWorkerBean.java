@@ -114,7 +114,7 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
         String result = null;
         if (address != null && !StringUtils.isBlank(address.getAddress())) {
             result = address.getAddress();
-            if (address.getPostalCode() != null) {
+            if (!StringUtils.isBlank(address.getPostalCode())) {
                 result = address.getPostalCode() + ", " + result;
             }
         }
