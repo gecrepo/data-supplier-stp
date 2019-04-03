@@ -11,6 +11,7 @@ public class AddressData implements Serializable {
     private static final long serialVersionUID = 6000749205632037935L;
 
     private String address;
+    private String postalCode;
     private String fiasId;
     private String fiasCode;
 
@@ -20,6 +21,14 @@ public class AddressData implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getFiasId() {

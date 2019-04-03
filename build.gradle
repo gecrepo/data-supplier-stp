@@ -33,7 +33,7 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.groupstp.datasupplier'
-        version = '1.0.2'
+        version = '1.0.3'
         isSnapshot = false
     }
     tomcat {

@@ -61,6 +61,7 @@ public class DaDataProvider implements DataProviderDelegate {
                     if (item.getResult() != null) {
                         AddressData address = new AddressData();
                         address.setAddress(item.getResult());
+                        address.setPostalCode(item.getPostalCode());
                         address.setFiasCode(item.getFiasCode());
                         address.setFiasId(item.getFiasId());
 
@@ -89,6 +90,7 @@ public class DaDataProvider implements DataProviderDelegate {
                     if (!StringUtils.isBlank(item.getValue()) && item.getData() != null) {
                         AddressData address = new AddressData();
                         address.setAddress(item.getValue());
+                        address.setPostalCode(item.getData().getPostalCode());
                         address.setFiasId(item.getData().getFiasId());
                         address.setFiasCode(item.getData().getFiasCode());
                         result.add(address);

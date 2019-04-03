@@ -229,6 +229,8 @@ public class DaDataAddress implements Serializable {
     private String source;
     @JsonProperty("result")
     private String result;
+    @JsonProperty("postal_code")
+    private String postalCode;
     @JsonProperty("fias_id")
     private String fiasId;
     @JsonProperty("fias_code")
@@ -248,6 +250,14 @@ public class DaDataAddress implements Serializable {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public String getFiasId() {

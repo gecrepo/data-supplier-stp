@@ -34,8 +34,8 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
         if (!Boolean.TRUE.equals(config.getEnabled())) {
             return rawAddress;
         }
-        AddressData address = getFormattedAddressDetails(rawAddress);
-        return address == null || StringUtils.isBlank(address.getAddress()) ? rawAddress : address.getAddress();
+        String result = prepareAddress(getFormattedAddressDetails(rawAddress));
+        return StringUtils.isBlank(result) ? rawAddress : result;
     }
 
     @Override
@@ -74,8 +74,8 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
         List<AddressData> addresses = getSuggestionAddressesDetails(rawAddress, count);
         if (!CollectionUtils.isEmpty(addresses)) {
             return addresses.stream()
-                    .filter(e -> !StringUtils.isBlank(e.getAddress()))
-                    .map(AddressData::getAddress)
+                    .map(this::prepareAddress)
+                    .filter(e -> !StringUtils.isBlank(e))
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
@@ -107,6 +107,18 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
             log.warn("Tried to get suggestion address from empty data");
         }
         return Collections.emptyList();
+    }
+
+    @Nullable
+    protected String prepareAddress(@Nullable AddressData address) {
+        String result = null;
+        if (address != null && !StringUtils.isBlank(address.getAddress())) {
+            result = address.getAddress();
+            if (address.getPostalCode() != null) {
+                result = address.getPostalCode() + ", " + result;
+            }
+        }
+        return result;
     }
 
     @Nullable
