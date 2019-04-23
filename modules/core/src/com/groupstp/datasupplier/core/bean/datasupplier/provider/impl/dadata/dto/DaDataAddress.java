@@ -235,6 +235,10 @@ public class DaDataAddress implements Serializable {
     private String fiasId;
     @JsonProperty("fias_code")
     private String fiasCode;
+    @JsonProperty("geo_lat")
+    private String latitude;
+    @JsonProperty("geo_lon")
+    private String longitude;
 
     public String getSource() {
         return source;
@@ -274,5 +278,21 @@ public class DaDataAddress implements Serializable {
 
     public void setFiasCode(String fiasCode) {
         this.fiasCode = fiasCode;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

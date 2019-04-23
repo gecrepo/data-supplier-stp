@@ -2,6 +2,7 @@ package com.groupstp.datasupplier.core.bean.datasupplier.provider.impl.dadata;
 
 import com.groupstp.datasupplier.core.bean.datasupplier.provider.DataProviderDelegate;
 import com.groupstp.datasupplier.core.bean.datasupplier.provider.impl.dadata.dto.DaDataAddress;
+import com.groupstp.datasupplier.core.bean.datasupplier.provider.impl.dadata.dto.DaDataAddressGeoCodingRequest;
 import com.groupstp.datasupplier.core.bean.datasupplier.provider.impl.dadata.dto.DaDataAddressSuggestRequest;
 import com.groupstp.datasupplier.core.bean.datasupplier.provider.impl.dadata.dto.DaDataAddressSuggestionResponse;
 import com.groupstp.datasupplier.core.config.DataSupplierConfig;
@@ -23,6 +24,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +42,7 @@ public class DaDataProvider implements DataProviderDelegate {
 
     protected static final String ENDPOINT_CLEAN_ADDRESS = "/clean/address";
     protected static final String ENDPOINT_SUGGEST_ADDRESS = "/suggest/address";
+    protected static final String ENDPOINT_GEOLOCATE_ADDRESS = "/geolocate/address";
 
     public static final String NAME = "dsstp_DaDataProvider";
 
@@ -64,6 +67,8 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setPostalCode(item.getPostalCode());
                         address.setFiasCode(item.getFiasCode());
                         address.setFiasId(item.getFiasId());
+                        address.setLatitude(parseCoordinateSafely(item.getLatitude()));
+                        address.setLongitude(parseCoordinateSafely(item.getLongitude()));
 
                         return address;
                     }
@@ -93,6 +98,9 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setPostalCode(item.getData().getPostalCode());
                         address.setFiasId(item.getData().getFiasId());
                         address.setFiasCode(item.getData().getFiasCode());
+                        address.setLatitude(parseCoordinateSafely(item.getData().getLatitude()));
+                        address.setLongitude(parseCoordinateSafely(item.getData().getLongitude()));
+
                         result.add(address);
                     }
                 }
@@ -101,6 +109,43 @@ public class DaDataProvider implements DataProviderDelegate {
             }
         } finally {
             sw.stop("DaDataProvider", "Suggestion addresses finished");
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public List<AddressData> getSuggestionAddressesDetails(double latitude, double longitude, int count) {
+        StopWatch sw = new Slf4JStopWatch(log);
+        try {
+            DaDataAddressGeoCodingRequest request = new DaDataAddressGeoCodingRequest();
+            request.setLatitude(latitude);
+            request.setLongitude(longitude);
+
+            DaDataAddressSuggestionResponse res = doRequest(ENDPOINT_GEOLOCATE_ADDRESS, HttpMethod.POST, request, DaDataAddressSuggestionResponse.class);
+            if (res != null && !CollectionUtils.isEmpty(res.getSuggestions())) {
+                List<AddressData> result = new ArrayList<>(res.getSuggestions().size() > count ? count : res.getSuggestions().size());
+                for (DaDataAddressSuggestionResponse.DaDataAddressSuggestion item : res.getSuggestions()) {
+                    if (!StringUtils.isBlank(item.getValue()) && item.getData() != null) {
+                        AddressData address = new AddressData();
+                        address.setAddress(item.getValue());
+                        address.setPostalCode(item.getData().getPostalCode());
+                        address.setFiasId(item.getData().getFiasId());
+                        address.setFiasCode(item.getData().getFiasCode());
+                        address.setLatitude(parseCoordinateSafely(item.getData().getLatitude()));
+                        address.setLongitude(parseCoordinateSafely(item.getData().getLongitude()));
+
+                        result.add(address);
+
+                        if (result.size() >= count) {
+                            break;
+                        }
+                    }
+                }
+                return result;
+            }
+        } finally {
+            sw.stop("DaDataProvider", "Suggestion addresses by coordinates finished");
         }
         return null;
     }
@@ -127,5 +172,16 @@ public class DaDataProvider implements DataProviderDelegate {
         rt.setRequestFactory(new BufferingClientHttpRequestFactory(factory));
 
         return rt;
+    }
+
+    @Nullable
+    protected Double parseCoordinateSafely(String text) {
+        if (!StringUtils.isBlank(text)) {
+            try {
+                return Double.valueOf(text.trim().replace(",", "."));
+            } catch (Exception ignore) {
+            }
+        }
+        return null;
     }
 }

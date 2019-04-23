@@ -109,6 +109,30 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
         return Collections.emptyList();
     }
 
+    @Override
+    public List<AddressData> getSuggestionAddressesDetails(double latitude, double longitude, int count) {
+        if (!Boolean.TRUE.equals(config.getEnabled())) {
+            return Collections.emptyList();
+        }
+        List<DataProviderDelegate> list = getDelegates();
+        if (!CollectionUtils.isEmpty(list)) {
+            for (DataProviderDelegate delegate : list) {
+                try {
+                    List<AddressData> result = delegate.getSuggestionAddressesDetails(latitude, longitude, count);
+                    if (!CollectionUtils.isEmpty(result)) {
+                        return result;
+                    }
+                } catch (Exception e) {
+                    log.error(String.format("Failed to receive suggestion address from geo coordinates by data delegate '%s'. Reason: %s", delegate.getClass(), e.getMessage()));
+                }
+            }
+            log.warn(String.format("Current data delegates are not support to get suggestion addresses from geo coordinates '%f':'%f'", latitude, longitude));
+        } else {
+            log.warn("Data provider delegates are not registered in system");
+        }
+        return Collections.emptyList();
+    }
+
     @Nullable
     protected String prepareAddress(@Nullable AddressData address) {
         String result = null;
