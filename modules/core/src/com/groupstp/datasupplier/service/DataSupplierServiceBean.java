@@ -1,8 +1,11 @@
 package com.groupstp.datasupplier.service;
+
 import com.groupstp.datasupplier.core.bean.DataSupplierWorker;
 import com.groupstp.datasupplier.data.AddressData;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -22,9 +25,30 @@ public class DataSupplierServiceBean implements DataSupplierService {
         return worker.getFormattedAddress(rawAddress);
     }
 
+    @Nullable
     @Override
     public AddressData getFormattedAddressDetails(String rawAddress) {
         return worker.getFormattedAddressDetails(rawAddress);
+    }
+
+    @Nullable
+    @Override
+    public AddressData getSuggestionAddressDetails(String rawAddress) {
+        List<AddressData> data = getSuggestionAddressesDetails(rawAddress, 1);
+        if (!CollectionUtils.isEmpty(data)) {
+            return data.get(0);
+        }
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public AddressData getSuggestionAddressDetails(double latitude, double longitude) {
+        List<AddressData> data = getSuggestionAddressesDetails(latitude, longitude, 1);
+        if (!CollectionUtils.isEmpty(data)) {
+            return data.get(0);
+        }
+        return null;
     }
 
     @Override

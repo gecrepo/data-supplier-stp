@@ -22,13 +22,33 @@ public interface DataSupplierService {
     String getFormattedAddress(String rawAddress);
 
     /**
-     * Format and clean address data with additional details
+     * Format and clean address data with additional details.
+     * NOTE: In most cases this operation is more expensive instead of 'getSuggestionAddressDetails'
      *
      * @param rawAddress raw address data, cannot be null
      * @return well cleaned and full formatted address data or null if nothing found
      */
     @Nullable
     AddressData getFormattedAddressDetails(String rawAddress);
+
+    /**
+     * Format and clean address data with some additional details if possible
+     *
+     * @param rawAddress raw address data, cannot be null
+     * @return address data or null if nothing found
+     */
+    @Nullable
+    AddressData getSuggestionAddressDetails(String rawAddress);
+
+    /**
+     * Format and clean address data with some additional details if possible
+     *
+     * @param latitude  geo point latitude
+     * @param longitude geo point longitude
+     * @return address data or null if nothing found
+     */
+    @Nullable
+    AddressData getSuggestionAddressDetails(double latitude, double longitude);
 
     /**
      * Get suggestions of possible addresses to user from his entered address data
