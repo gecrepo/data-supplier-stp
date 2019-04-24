@@ -36,4 +36,9 @@ public class DataSupplierServiceBean implements DataSupplierService {
     public List<AddressData> getSuggestionAddressesDetails(String rawAddress, int count) {
         return worker.getSuggestionAddressesDetails(rawAddress, count);
     }
+
+    @Override
+    public List<AddressData> getSuggestionAddressesDetails(double latitude, double longitude, int count) {
+        return worker.getSuggestionAddressesDetails(latitude, longitude, count);
+    }
 }

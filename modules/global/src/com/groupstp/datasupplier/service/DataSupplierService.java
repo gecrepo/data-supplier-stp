@@ -47,4 +47,14 @@ public interface DataSupplierService {
      * @return possible suggestions addresses
      */
     List<AddressData> getSuggestionAddressesDetails(String rawAddress, int count);
+
+    /**
+     * Get suggestions of possible addresses to user from specified geo point coordinates
+     *
+     * @param latitude  geo point latitude
+     * @param longitude geo point longitude
+     * @param count     count of the suggestion
+     * @return possible suggestions addresses
+     */
+    List<AddressData> getSuggestionAddressesDetails(double latitude, double longitude, int count);
 }
