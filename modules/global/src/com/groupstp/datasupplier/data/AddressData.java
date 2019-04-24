@@ -1,6 +1,7 @@
 package com.groupstp.datasupplier.data;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Data supplier address representation class
@@ -63,5 +64,26 @@ public class AddressData implements Serializable {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (getClass() == o.getClass()) {
+            AddressData other = (AddressData) o;
+            return Objects.equals(address, other.address) &&
+                    Objects.equals(postalCode, other.postalCode) &&
+                    Objects.equals(fiasId, other.fiasId) &&
+                    Objects.equals(fiasCode, other.fiasCode) &&
+                    Objects.equals(latitude, other.latitude) &&
+                    Objects.equals(longitude, other.longitude);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, postalCode, fiasId, fiasCode, latitude, longitude);
     }
 }
