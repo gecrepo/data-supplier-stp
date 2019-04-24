@@ -58,7 +58,7 @@ public class DaDataProvider implements DataProviderDelegate {
     public AddressData getFormattedAddressDetails(String rawAddress) {
         StopWatch sw = new Slf4JStopWatch(log);
         try {
-            DaDataAddress[] items = doRequest(ENDPOINT_CLEAN_ADDRESS, HttpMethod.POST, new String[]{rawAddress}, DaDataAddress[].class);
+            DaDataAddress[] items = doRequest(ENDPOINT_CLEAN_ADDRESS, HttpMethod.POST, new String[]{rawAddress}, DaDataAddress[].class, false);
             if (items != null && items.length > 0) {
                 for (DaDataAddress item : items) {
                     if (item.getResult() != null) {
@@ -88,7 +88,7 @@ public class DaDataProvider implements DataProviderDelegate {
             request.setQuery(rawAddress);
             request.setCount(count < 1 ? 10 : count);
 
-            DaDataAddressSuggestionResponse res = doRequest(ENDPOINT_SUGGEST_ADDRESS, HttpMethod.POST, request, DaDataAddressSuggestionResponse.class);
+            DaDataAddressSuggestionResponse res = doRequest(ENDPOINT_SUGGEST_ADDRESS, HttpMethod.POST, request, DaDataAddressSuggestionResponse.class, true);
             if (res != null && !CollectionUtils.isEmpty(res.getSuggestions())) {
                 List<AddressData> result = new ArrayList<>(res.getSuggestions().size());
                 for (DaDataAddressSuggestionResponse.DaDataAddressSuggestion item : res.getSuggestions()) {
@@ -122,7 +122,7 @@ public class DaDataProvider implements DataProviderDelegate {
             request.setLatitude(latitude);
             request.setLongitude(longitude);
 
-            DaDataAddressSuggestionResponse res = doRequest(ENDPOINT_GEOLOCATE_ADDRESS, HttpMethod.POST, request, DaDataAddressSuggestionResponse.class);
+            DaDataAddressSuggestionResponse res = doRequest(ENDPOINT_GEOLOCATE_ADDRESS, HttpMethod.POST, request, DaDataAddressSuggestionResponse.class, true);
             if (res != null && !CollectionUtils.isEmpty(res.getSuggestions())) {
                 List<AddressData> result = new ArrayList<>(res.getSuggestions().size() > count ? count : res.getSuggestions().size());
                 for (DaDataAddressSuggestionResponse.DaDataAddressSuggestion item : res.getSuggestions()) {
@@ -150,8 +150,8 @@ public class DaDataProvider implements DataProviderDelegate {
         return null;
     }
 
-    protected <T> T doRequest(String endpoint, HttpMethod method, Object body, Class<T> responseClass) {
-        ResponseEntity response = getRestTemplate().exchange(config.getDaDataRestEndpoint() + endpoint,
+    protected <T> T doRequest(String endpoint, HttpMethod method, Object body, Class<T> responseClass, boolean suggestion) {
+        ResponseEntity response = getRestTemplate().exchange((suggestion ? config.getDaDataRestSuggestionEndpoint() : config.getDaDataRestEndpoint()) + endpoint,
                 method, new HttpEntity<>(body), responseClass);
         //noinspection unchecked
         return (T) response.getBody();

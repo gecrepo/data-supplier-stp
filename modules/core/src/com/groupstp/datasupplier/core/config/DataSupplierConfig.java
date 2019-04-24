@@ -42,6 +42,13 @@ public interface DataSupplierConfig extends Config {
     String getDaDataRestEndpoint();
 
     /**
+     * @return DaData provider basic rest endpoint url
+     */
+    @Property("data-supplier.daData.restSuggestionEndpoint")
+    @Default("https://suggestions.dadata.ru/suggestions/api/4_1/rs")
+    String getDaDataRestSuggestionEndpoint();
+
+    /**
      * @return DaData provider communication timeout in ms
      */
     @Property("data-supplier.daData.timeOutMs")
