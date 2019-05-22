@@ -148,7 +148,7 @@ public class DaDataProvider implements DataProviderDelegate {
                 }
                 result.sort(Comparator.comparing(AddressData::getAddress));
 
-                if (count == 1 && result.size() == 1) {//as it only one prepare it as more detailed
+                if (count == 1 && result.size() == 1) {//as it is only one, prepare it as more detailed
                     try {
                         AddressData selected = result.get(0);
                         if (selected.getLatitude() == null || selected.getLongitude() == null) {
@@ -186,6 +186,7 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setPostalCode(item.getData().getPostalCode());
                         address.setFiasId(item.getData().getFiasId());
                         address.setFiasCode(item.getData().getFiasCode());
+                        address.setKladrId(item.getData().getKladrId());
                         address.setLatitude(parseCoordinateSafely(item.getData().getLatitude()));
                         address.setLongitude(parseCoordinateSafely(item.getData().getLongitude()));
 
