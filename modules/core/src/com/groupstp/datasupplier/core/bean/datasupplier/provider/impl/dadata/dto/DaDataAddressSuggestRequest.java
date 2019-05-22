@@ -1,6 +1,7 @@
 package com.groupstp.datasupplier.core.bean.datasupplier.provider.impl.dadata.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -10,6 +11,7 @@ import java.io.Serializable;
  *
  * @author adiatullin
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DaDataAddressSuggestRequest implements Serializable {
     private static final long serialVersionUID = -8689848478458742879L;

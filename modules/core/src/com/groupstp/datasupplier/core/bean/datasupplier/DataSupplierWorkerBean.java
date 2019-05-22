@@ -66,6 +66,33 @@ public class DataSupplierWorkerBean implements DataSupplierWorker {
         return null;
     }
 
+    @Nullable
+    @Override
+    public AddressData getExtendedSuggestionAddressDetails(AddressData selected) {
+        if (!Boolean.TRUE.equals(config.getEnabled())) {
+            return null;
+        }
+        if (selected != null) {
+            List<DataProviderDelegate> list = getDelegates();
+            if (!CollectionUtils.isEmpty(list)) {
+                for (DataProviderDelegate delegate : list) {
+                    try {
+                        AddressData result = delegate.getExtendedSuggestionAddressDetails(selected);
+                        if (result != null) {
+                            return result;
+                        }
+                    } catch (Exception e) {
+                        log.error(String.format("Failed to prepare more detailed suggestion address from data delegate '%s'. Reason: %s", delegate.getClass(), e.getMessage()));
+                    }
+                }
+                log.warn("Current data delegates are not support preparing more detailed suggestion address");
+            } else {
+                log.warn("Data provider delegates are not registered in system");
+            }
+        }
+        return null;
+    }
+
     @Override
     public List<String> getSuggestionAddresses(String rawAddress, int count) {
         if (!Boolean.TRUE.equals(config.getEnabled())) {

@@ -12,6 +12,7 @@ import java.util.List;
  * @author adiatullin
  */
 public interface DataProviderDelegate extends Ordered {
+
     /**
      * Format and clean address data with additional details
      *
@@ -22,7 +23,17 @@ public interface DataProviderDelegate extends Ordered {
     AddressData getFormattedAddressDetails(String rawAddress);
 
     /**
-     * Get suggestions of possible addresses to user from his entered address data with additional details
+     * If user selected the suggestion this method provide more detailed address data
+     *
+     * @param selected user selected suggestion address
+     * @return more detailed suggestion address data
+     */
+    @Nullable
+    AddressData getExtendedSuggestionAddressDetails(AddressData selected);
+
+    /**
+     * Get suggestions of possible addresses to user from his entered address data with additional details.
+     * If count = 1 when server will provide more detailed suggestion automatically
      *
      * @param rawAddress user entered raw address data
      * @param count      count of the suggestion

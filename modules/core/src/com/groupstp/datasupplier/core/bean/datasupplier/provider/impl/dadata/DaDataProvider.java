@@ -43,6 +43,7 @@ public class DaDataProvider implements DataProviderDelegate {
     protected static final String ENDPOINT_CLEAN_ADDRESS = "/clean/address";
     protected static final String ENDPOINT_SUGGEST_ADDRESS = "/suggest/address";
     protected static final String ENDPOINT_GEOLOCATE_ADDRESS = "/geolocate/address";
+    protected static final String ENDPOINT_SUGGEST_SELECT_ADDRESS = "/findById/address";
 
     public static final String NAME = "dsstp_DaDataProvider";
 
@@ -67,6 +68,7 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setPostalCode(item.getPostalCode());
                         address.setFiasCode(item.getFiasCode());
                         address.setFiasId(item.getFiasId());
+                        address.setKladrId(item.getKladrId());
                         address.setLatitude(parseCoordinateSafely(item.getLatitude()));
                         address.setLongitude(parseCoordinateSafely(item.getLongitude()));
 
@@ -78,6 +80,45 @@ public class DaDataProvider implements DataProviderDelegate {
             sw.stop("DaDataProvider", "Address clean finished");
         }
         return null;
+    }
+
+    @Nullable
+    @Override
+    public AddressData getExtendedSuggestionAddressDetails(AddressData selected) {
+        //https://confluence.hflabs.ru/pages/viewpage.action?pageId=312016944
+        StopWatch sw = new Slf4JStopWatch(log);
+        try {
+            if (selected != null) {
+                String id = selected.getFiasId();
+                if (StringUtils.isEmpty(id)) {
+                    id = selected.getKladrId();
+                }
+                if (!StringUtils.isEmpty(id)) {
+                    //search detailed suggestion by id code
+                    DaDataAddressSuggestRequest request = new DaDataAddressSuggestRequest();
+                    request.setQuery(id);
+
+                    DaDataAddressSuggestionResponse res = doRequest(ENDPOINT_SUGGEST_SELECT_ADDRESS, HttpMethod.POST, request, DaDataAddressSuggestionResponse.class, true);
+                    if (res != null && !CollectionUtils.isEmpty(res.getSuggestions())) {
+                        DaDataAddressSuggestionResponse.DaDataAddressSuggestion extended = res.getSuggestions().iterator().next();
+                        if (extended.getData() != null) {
+                            if (StringUtils.isBlank(selected.getFiasCode())) {
+                                selected.setFiasCode(extended.getData().getFiasCode());
+                            }
+                            if (selected.getLatitude() == null) {
+                                selected.setLatitude(parseCoordinateSafely(extended.getData().getLatitude()));
+                            }
+                            if (selected.getLongitude() == null) {
+                                selected.setLongitude(parseCoordinateSafely(extended.getData().getLongitude()));
+                            }
+                        }
+                    }
+                }
+            }
+        } finally {
+            sw.stop("DaDataProvider", "Detailed selected suggestion finished");
+        }
+        return selected;
     }
 
     @Override
@@ -98,6 +139,7 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setPostalCode(item.getData().getPostalCode());
                         address.setFiasId(item.getData().getFiasId());
                         address.setFiasCode(item.getData().getFiasCode());
+                        address.setKladrId(item.getData().getKladrId());
                         address.setLatitude(parseCoordinateSafely(item.getData().getLatitude()));
                         address.setLongitude(parseCoordinateSafely(item.getData().getLongitude()));
 
@@ -105,6 +147,18 @@ public class DaDataProvider implements DataProviderDelegate {
                     }
                 }
                 result.sort(Comparator.comparing(AddressData::getAddress));
+
+                if (count == 1 && result.size() == 1) {//as it only one prepare it as more detailed
+                    try {
+                        AddressData selected = result.get(0);
+                        if (selected.getLatitude() == null || selected.getLongitude() == null) {
+                            getExtendedSuggestionAddressDetails(selected);
+                        }
+                    } catch (Exception e) {
+                        log.warn("Failed to prepare detailed one selected suggestion");
+                    }
+                }
+
                 return result;
             }
         } finally {

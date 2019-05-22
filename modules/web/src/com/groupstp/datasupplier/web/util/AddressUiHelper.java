@@ -117,7 +117,7 @@ public final class AddressUiHelper {
             field.addValueChangeListener(e -> {
                 String address = field.getValue();
 
-                AddressData current = cache.get(address);
+                AddressData current = service.getExtendedSuggestionAddressDetails(cache.get(address));
                 AddressData previous = previousDataHolder[0];
                 previousDataHolder[0] = current;
 
@@ -197,7 +197,7 @@ public final class AddressUiHelper {
             field.addValueChangeListener(e -> {
                 String address = field.getValue();
 
-                AddressData current = cache.get(address);
+                AddressData current = service.getExtendedSuggestionAddressDetails(cache.get(address));
                 AddressData previous = previousDataHolder[0];
                 previousDataHolder[0] = current;
 

@@ -31,6 +31,15 @@ public interface DataSupplierWorker {
     AddressData getFormattedAddressDetails(String rawAddress);
 
     /**
+     * If user selected the suggestion this method provide more detailed address data
+     *
+     * @param selected user selected suggestion address
+     * @return more detailed suggestion address data
+     */
+    @Nullable
+    AddressData getExtendedSuggestionAddressDetails(AddressData selected);
+
+    /**
      * Get suggestions of possible addresses to user from his entered address data
      *
      * @param rawAddress user entered raw address data
@@ -40,7 +49,8 @@ public interface DataSupplierWorker {
     List<String> getSuggestionAddresses(String rawAddress, int count);
 
     /**
-     * Get suggestions of possible addresses to user from his entered address data with additional details
+     * Get suggestions of possible addresses to user from his entered address data with additional details.
+     * If count = 1 when server will provide more detailed suggestion automatically
      *
      * @param rawAddress user entered raw address data
      * @param count      count of the suggestion

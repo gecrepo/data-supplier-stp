@@ -77,4 +77,13 @@ public interface DataSupplierService {
      * @return possible suggestions addresses
      */
     List<AddressData> getSuggestionAddressesDetails(double latitude, double longitude, int count);
+
+    /**
+     * If user selected the suggestion this method provide more detailed address data
+     *
+     * @param selected user selected suggestion address
+     * @return more detailed suggestion address data
+     */
+    @Nullable
+    AddressData getExtendedSuggestionAddressDetails(AddressData selected);
 }

@@ -65,4 +65,10 @@ public class DataSupplierServiceBean implements DataSupplierService {
     public List<AddressData> getSuggestionAddressesDetails(double latitude, double longitude, int count) {
         return worker.getSuggestionAddressesDetails(latitude, longitude, count);
     }
+
+    @Nullable
+    @Override
+    public AddressData getExtendedSuggestionAddressDetails(AddressData selected) {
+        return worker.getExtendedSuggestionAddressDetails(selected);
+    }
 }

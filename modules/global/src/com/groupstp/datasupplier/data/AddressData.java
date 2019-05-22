@@ -15,6 +15,7 @@ public class AddressData implements Serializable {
     private String postalCode;
     private String fiasId;
     private String fiasCode;
+    private String kladrId;
     private Double latitude;
     private Double longitude;
 
@@ -50,6 +51,14 @@ public class AddressData implements Serializable {
         this.fiasCode = fiasCode;
     }
 
+    public String getKladrId() {
+        return kladrId;
+    }
+
+    public void setKladrId(String kladrId) {
+        this.kladrId = kladrId;
+    }
+
     public Double getLatitude() {
         return latitude;
     }
@@ -76,6 +85,7 @@ public class AddressData implements Serializable {
                     Objects.equals(postalCode, other.postalCode) &&
                     Objects.equals(fiasId, other.fiasId) &&
                     Objects.equals(fiasCode, other.fiasCode) &&
+                    Objects.equals(kladrId, other.kladrId) &&
                     Objects.equals(latitude, other.latitude) &&
                     Objects.equals(longitude, other.longitude);
         }
@@ -84,6 +94,6 @@ public class AddressData implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(address, postalCode, fiasId, fiasCode, latitude, longitude);
+        return Objects.hash(address, postalCode, fiasId, fiasCode, kladrId, latitude, longitude);
     }
 }
