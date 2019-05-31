@@ -55,7 +55,7 @@ public class DaDataProvider implements DataProviderDelegate {
     protected DataSupplierConfig config;
 
     protected final Object requestLock = new Object();
-    protected long lastRequestMillis = 0;
+    protected volatile long lastRequestMillis = 0;
 
     @Override
     public int getOrder() {
