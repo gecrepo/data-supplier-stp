@@ -9,6 +9,7 @@ import com.groupstp.datasupplier.core.config.DataSupplierConfig;
 import com.groupstp.datasupplier.core.util.HeaderRequestInterceptor;
 import com.groupstp.datasupplier.core.util.RestInterceptor;
 import com.groupstp.datasupplier.data.AddressData;
+import com.haulmont.cuba.core.global.TimeSource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.perf4j.StopWatch;
@@ -48,7 +49,13 @@ public class DaDataProvider implements DataProviderDelegate {
     public static final String NAME = "dsstp_DaDataProvider";
 
     @Inject
+    protected TimeSource timeSource;
+
+    @Inject
     protected DataSupplierConfig config;
+
+    protected final Object requestLock = new Object();
+    protected long lastRequestMillis = 0;
 
     @Override
     public int getOrder() {
@@ -206,6 +213,8 @@ public class DaDataProvider implements DataProviderDelegate {
     }
 
     protected <T> T doRequest(String endpoint, HttpMethod method, Object body, Class<T> responseClass, boolean suggestion) {
+        waitIfNeed();
+
         ResponseEntity response = getRestTemplate().exchange((suggestion ? config.getDaDataRestSuggestionEndpoint() : config.getDaDataRestEndpoint()) + endpoint,
                 method, new HttpEntity<>(body), responseClass);
         //noinspection unchecked
@@ -238,5 +247,26 @@ public class DaDataProvider implements DataProviderDelegate {
             }
         }
         return null;
+    }
+
+    protected void waitIfNeed() {
+        Integer requestPerSecond = config.getRequestsPerSecond();
+        if (requestPerSecond != null && requestPerSecond > 0) {
+            long waitMillis = 1000 / requestPerSecond;
+
+            synchronized (requestLock) {
+                long millisFromLastCall = timeSource.currentTimeMillis() - lastRequestMillis;
+
+                if (millisFromLastCall < waitMillis) {
+                    try {
+                        Thread.sleep(waitMillis - millisFromLastCall);
+                    } catch (Exception ignore) {
+                        //do nothing
+                    }
+                }
+
+                lastRequestMillis = timeSource.currentTimeMillis();
+            }
+        }
     }
 }

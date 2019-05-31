@@ -54,4 +54,11 @@ public interface DataSupplierConfig extends Config {
     @Property("data-supplier.daData.timeOutMs")
     @DefaultInteger(5000)
     Integer getTimeoutMs();
+
+    /**
+     * @return special property to prevent an external locking
+     */
+    @Property("data-supplier.daData.requestsPerSecond")
+    @DefaultInteger(10)
+    Integer getRequestsPerSecond();
 }
