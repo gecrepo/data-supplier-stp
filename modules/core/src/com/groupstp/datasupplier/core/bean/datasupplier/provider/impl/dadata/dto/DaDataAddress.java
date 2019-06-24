@@ -241,6 +241,68 @@ public class DaDataAddress implements Serializable {
     private String latitude;
     @JsonProperty("geo_lon")
     private String longitude;
+    @JsonProperty("fias_level")
+    private String fiasLevel;
+    @JsonProperty("fias_actuality_state")
+    private String fiasActualityState;
+    @JsonProperty("qc_geo")
+    private String qcGeo;
+    @JsonProperty("qc_house")
+    private String qcHouse;
+    @JsonProperty("qc")
+    private String qc;
+    @JsonProperty("unparsed_parts")
+    private String unparsedParts;
+
+    public String getFiasLevel() {
+        return fiasLevel;
+    }
+
+    public void setFiasLevel(String fiasLevel) {
+        this.fiasLevel = fiasLevel;
+    }
+
+    public String getFiasActualityState() {
+        return fiasActualityState;
+    }
+
+    public void setFiasActualityState(String fiasActualityState) {
+        this.fiasActualityState = fiasActualityState;
+    }
+
+    public String getQcGeo() {
+        return qcGeo;
+    }
+
+    public void setQcGeo(String qcGeo) {
+        this.qcGeo = qcGeo;
+    }
+
+    public String getQcHouse() {
+        return qcHouse;
+    }
+
+    public void setQcHouse(String qcHouse) {
+        this.qcHouse = qcHouse;
+    }
+
+    public String getQc() {
+        return qc;
+    }
+
+    public void setQc(String qc) {
+        this.qc = qc;
+    }
+
+    public String getUnparsedParts() {
+        return unparsedParts;
+    }
+
+    public void setUnparsedParts(String unparsedParts) {
+        this.unparsedParts = unparsedParts;
+    }
+
+
 
     public String getSource() {
         return source;

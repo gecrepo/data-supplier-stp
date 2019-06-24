@@ -18,6 +18,69 @@ public class AddressData implements Serializable {
     private String kladrId;
     private Double latitude;
     private Double longitude;
+    private String source;
+    private String fiasLevel;
+    private String fiasActualityState;
+    private String qcGeo;
+    private String qcHouse;
+    private String qc;
+    private String unparsedParts;
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getFiasLevel() {
+        return fiasLevel;
+    }
+
+    public void setFiasLevel(String fiasLevel) {
+        this.fiasLevel = fiasLevel;
+    }
+
+    public String getFiasActualityState() {
+        return fiasActualityState;
+    }
+
+    public void setFiasActualityState(String fiasActualityState) {
+        this.fiasActualityState = fiasActualityState;
+    }
+
+    public String getQcGeo() {
+        return qcGeo;
+    }
+
+    public void setQcGeo(String qcGeo) {
+        this.qcGeo = qcGeo;
+    }
+
+    public String getQcHouse() {
+        return qcHouse;
+    }
+
+    public void setQcHouse(String qcHouse) {
+        this.qcHouse = qcHouse;
+    }
+
+    public String getQc() {
+        return qc;
+    }
+
+    public void setQc(String qc) {
+        this.qc = qc;
+    }
+
+    public String getUnparsedParts() {
+        return unparsedParts;
+    }
+
+    public void setUnparsedParts(String unparsedParts) {
+        this.unparsedParts = unparsedParts;
+    }
 
     public String getAddress() {
         return address;
@@ -87,13 +150,21 @@ public class AddressData implements Serializable {
                     Objects.equals(fiasCode, other.fiasCode) &&
                     Objects.equals(kladrId, other.kladrId) &&
                     Objects.equals(latitude, other.latitude) &&
-                    Objects.equals(longitude, other.longitude);
+                    Objects.equals(longitude, other.longitude) &&
+                    Objects.equals(source, other.source) &&
+                    Objects.equals(fiasLevel, other.fiasLevel) &&
+                    Objects.equals(fiasActualityState, other.fiasActualityState) &&
+                    Objects.equals(qcGeo, other.qcGeo) &&
+                    Objects.equals(qcHouse, other.qcHouse) &&
+                    Objects.equals(qc, other.qc) &&
+                    Objects.equals(unparsedParts, other.unparsedParts);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(address, postalCode, fiasId, fiasCode, kladrId, latitude, longitude);
+        return Objects.hash(address, postalCode, fiasId, fiasCode, kladrId, latitude, longitude,
+                source, fiasLevel, fiasActualityState, qcGeo, qcHouse, qc, unparsedParts);
     }
 }

@@ -78,6 +78,13 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setKladrId(item.getKladrId());
                         address.setLatitude(parseCoordinateSafely(item.getLatitude()));
                         address.setLongitude(parseCoordinateSafely(item.getLongitude()));
+                        address.setSource(item.getSource());
+                        address.setFiasLevel(item.getFiasLevel());
+                        address.setFiasActualityState(item.getFiasActualityState());
+                        address.setQcGeo(item.getQcGeo());
+                        address.setQcHouse(item.getQcHouse());
+                        address.setQc(item.getQc());
+                        address.setUnparsedParts(item.getUnparsedParts());
 
                         return address;
                     }
