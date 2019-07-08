@@ -254,55 +254,6 @@ public class DaDataAddress implements Serializable {
     @JsonProperty("unparsed_parts")
     private String unparsedParts;
 
-    public String getFiasLevel() {
-        return fiasLevel;
-    }
-
-    public void setFiasLevel(String fiasLevel) {
-        this.fiasLevel = fiasLevel;
-    }
-
-    public String getFiasActualityState() {
-        return fiasActualityState;
-    }
-
-    public void setFiasActualityState(String fiasActualityState) {
-        this.fiasActualityState = fiasActualityState;
-    }
-
-    public String getQcGeo() {
-        return qcGeo;
-    }
-
-    public void setQcGeo(String qcGeo) {
-        this.qcGeo = qcGeo;
-    }
-
-    public String getQcHouse() {
-        return qcHouse;
-    }
-
-    public void setQcHouse(String qcHouse) {
-        this.qcHouse = qcHouse;
-    }
-
-    public String getQc() {
-        return qc;
-    }
-
-    public void setQc(String qc) {
-        this.qc = qc;
-    }
-
-    public String getUnparsedParts() {
-        return unparsedParts;
-    }
-
-    public void setUnparsedParts(String unparsedParts) {
-        this.unparsedParts = unparsedParts;
-    }
-
-
 
     public String getSource() {
         return source;
@@ -366,5 +317,53 @@ public class DaDataAddress implements Serializable {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getFiasLevel() {
+        return fiasLevel;
+    }
+
+    public void setFiasLevel(String fiasLevel) {
+        this.fiasLevel = fiasLevel;
+    }
+
+    public String getFiasActualityState() {
+        return fiasActualityState;
+    }
+
+    public void setFiasActualityState(String fiasActualityState) {
+        this.fiasActualityState = fiasActualityState;
+    }
+
+    public String getQcGeo() {
+        return qcGeo;
+    }
+
+    public void setQcGeo(String qcGeo) {
+        this.qcGeo = qcGeo;
+    }
+
+    public String getQcHouse() {
+        return qcHouse;
+    }
+
+    public void setQcHouse(String qcHouse) {
+        this.qcHouse = qcHouse;
+    }
+
+    public String getQc() {
+        return qc;
+    }
+
+    public void setQc(String qc) {
+        this.qc = qc;
+    }
+
+    public String getUnparsedParts() {
+        return unparsedParts;
+    }
+
+    public void setUnparsedParts(String unparsedParts) {
+        this.unparsedParts = unparsedParts;
     }
 }

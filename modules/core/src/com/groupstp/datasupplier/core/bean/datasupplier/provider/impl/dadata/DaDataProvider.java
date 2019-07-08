@@ -125,6 +125,27 @@ public class DaDataProvider implements DataProviderDelegate {
                             if (selected.getLongitude() == null) {
                                 selected.setLongitude(parseCoordinateSafely(extended.getData().getLongitude()));
                             }
+                            if (selected.getSource() == null) {
+                                selected.setSource(extended.getData().getSource());
+                            }
+                            if (selected.getFiasLevel() == null) {
+                                selected.setFiasLevel(extended.getData().getFiasLevel());
+                            }
+                            if (selected.getFiasActualityState() == null) {
+                                selected.setFiasActualityState(extended.getData().getFiasActualityState());
+                            }
+                            if (selected.getQcGeo() == null) {
+                                selected.setQcGeo(extended.getData().getQcGeo());
+                            }
+                            if (selected.getQcHouse() == null) {
+                                selected.setQcHouse(extended.getData().getQcHouse());
+                            }
+                            if (selected.getQc() == null) {
+                                selected.setQc(extended.getData().getQc());
+                            }
+                            if (selected.getUnparsedParts() == null) {
+                                selected.setUnparsedParts(extended.getData().getUnparsedParts());
+                            }
                         }
                     }
                 }
@@ -156,6 +177,13 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setKladrId(item.getData().getKladrId());
                         address.setLatitude(parseCoordinateSafely(item.getData().getLatitude()));
                         address.setLongitude(parseCoordinateSafely(item.getData().getLongitude()));
+                        address.setSource(item.getData().getSource());
+                        address.setFiasLevel(item.getData().getFiasLevel());
+                        address.setFiasActualityState(item.getData().getFiasActualityState());
+                        address.setQcGeo(item.getData().getQcGeo());
+                        address.setQcHouse(item.getData().getQcHouse());
+                        address.setQc(item.getData().getQc());
+                        address.setUnparsedParts(item.getData().getUnparsedParts());
 
                         result.add(address);
                     }
@@ -203,6 +231,13 @@ public class DaDataProvider implements DataProviderDelegate {
                         address.setKladrId(item.getData().getKladrId());
                         address.setLatitude(parseCoordinateSafely(item.getData().getLatitude()));
                         address.setLongitude(parseCoordinateSafely(item.getData().getLongitude()));
+                        address.setSource(item.getData().getSource());
+                        address.setFiasLevel(item.getData().getFiasLevel());
+                        address.setFiasActualityState(item.getData().getFiasActualityState());
+                        address.setQcGeo(item.getData().getQcGeo());
+                        address.setQcHouse(item.getData().getQcHouse());
+                        address.setQc(item.getData().getQc());
+                        address.setUnparsedParts(item.getData().getUnparsedParts());
 
                         result.add(address);
 
